@@ -1,16 +1,7 @@
-countNQueensSolutions = function(n) {
+countNQueensSolutions = function(n, topRowColumn) {
   if (n === 0 || n === 1) {
     return 1;
   }
-
-  if (n % 2 === 0) {
-    var nIs = 'even';
-    var nHalf = n / 2;
-  } else {
-    var nIs = 'odd';
-    var nHalf = Math.floor(n / 2);
-  }
-
 
   var getAttackedSquares = function(rowIndex, colIndex, addOrRemove) {
 
@@ -69,13 +60,11 @@ countNQueensSolutions = function(n) {
   var placedQueens = 0;
   var alreadyAttackedSquares = {};
 
-
-  var iterateOverRow = function (row, singleColumn) {
-    var columnCheck, column;
-    // debugger;
-    singleColumn ? columnCheck = 1 : columnCheck = n;
-    // singleColumn !== undefined ? columnCheck = singleColumn + 1 : columnCheck = n;
-    // singleColumn !== undefined ? column = singleColumn : 0;
+  var iterateOverRow = function (row, topRowColumn) {
+    var columnCheck;
+    var column;
+    topRowColumn !== undefined ? columnCheck = topRowColumn + 1 : columnCheck = n;
+    topRowColumn !== undefined ? column = topRowColumn : column = 0;
 
     var row = row || 0;
 
@@ -99,29 +88,13 @@ countNQueensSolutions = function(n) {
       }
 
       column++;
-      if (row === 0 && column === nHalf) {
-        if (nIs === 'even') {
-          boardsCounter = boardsCounter * 2;
-          return;
-        } else {
-          var nHalfBoards = boardsCounter;
-        }
-      } else if (row === 0 && column === (nHalf + 1)) {
-        boardsCounter = nHalfBoards + boardsCounter;
-        return;
-      }
+
     }
     return;
   };
 
-  iterateOverRow(0, true);
+  iterateOverRow(0, topRowColumn);
 
   return boardsCounter;
 
 };
-
-console.log(countNQueensSolutions(5));
-
-//for 5
-//first column = 2
-//
