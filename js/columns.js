@@ -72,12 +72,13 @@ countNQueensSolutions = function(n) {
 
   var iterateOverRow = function (row, stop) {
     var columnCheck;
+    var column;
     // debugger;
-    stop ? columnCheck = 1 : columnCheck = n;
+    stop !== undefined ? columnCheck = stop + 1 : columnCheck = n;
+    stop !== undefined ? column = stop : column = 0;
     console.log('columnCheck: ' + columnCheck);
 
     var row = row || 0;
-    var column = 0;
 
     while (column < columnCheck) {
       var square = JSON.stringify([row, column]);
@@ -114,13 +115,13 @@ countNQueensSolutions = function(n) {
     return;
   };
 
-  iterateOverRow(0);
+  iterateOverRow(0, 0);
 
   return boardsCounter;
 
 };
 
-console.log(countNQueensSolutions(4));
+console.log(countNQueensSolutions(5));
 
 //first column = 2
 //
