@@ -70,14 +70,14 @@ countNQueensSolutions = function(n) {
   var alreadyAttackedSquares = {};
 
 
-  var iterateOverRow = function (row, stop) {
-    var columnCheck;
+  var iterateOverRow = function (row, singleColumn) {
+    var columnCheck, column;
     // debugger;
-    stop ? columnCheck = 1 : columnCheck = n;
-    console.log('columnCheck: ' + columnCheck);
+    singleColumn ? columnCheck = 1 : columnCheck = n;
+    // singleColumn !== undefined ? columnCheck = singleColumn + 1 : columnCheck = n;
+    // singleColumn !== undefined ? column = singleColumn : 0;
 
     var row = row || 0;
-    var column = 0;
 
     while (column < columnCheck) {
       var square = JSON.stringify([row, column]);
@@ -114,13 +114,14 @@ countNQueensSolutions = function(n) {
     return;
   };
 
-  iterateOverRow(0);
+  iterateOverRow(0, true);
 
   return boardsCounter;
 
 };
 
-console.log(countNQueensSolutions(4));
+console.log(countNQueensSolutions(5));
 
+//for 5
 //first column = 2
 //
