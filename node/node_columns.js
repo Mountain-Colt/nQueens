@@ -1,4 +1,4 @@
-countNQueensSolutions = function(n, topRowColumn) {
+module.exports.countNQueensSolutions = function(n, topRowColumn) {
   if (n === 0 || n === 1) {
     return 1;
   }
@@ -99,7 +99,9 @@ countNQueensSolutions = function(n, topRowColumn) {
 
 };
 
-var n = Number(process.argv[2]);
-var singleColumn = Number(process.argv[3]);
 
-console.log(countNQueensSolutions(n, singleColumn));
+
+// var n = Number(process.argv[2]);
+// var singleColumn = Number(process.argv[3]);
+
+// console.log(countNQueensSolutions(n, singleColumn));
