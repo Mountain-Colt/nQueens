@@ -99,4 +99,7 @@ countNQueensSolutions = function(n, topRowColumn) {
 
 };
 
-console.log(countNQueensSolutions(5, 0));
+var n = Number(process.argv[2]);
+var singleColumn = Number(process.argv[3]);
+
+console.log(countNQueensSolutions(n, singleColumn));
