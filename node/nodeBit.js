@@ -15,8 +15,8 @@ var convertDecToBin = function(dec){
   return dec.toString(2);
 };
 
-var getOpenSquares = function(row, n){
-  var decRow = convertBinToDec(row);
+var getOpenSquares = function(binRow, n){
+  var decRow = convertBinToDec(binRow);
   var openPositions = [];
   for(var i = 0; i < n; i++){
     if( !(decRow & 1<<i) ){
@@ -26,9 +26,9 @@ var getOpenSquares = function(row, n){
   return openPositions;
 };
 
-var getNextRow = function(row, n){
+var getNextRow = function(binRow, n){
   // debugger;
-  var decRow = convertBinToDec(row);
+  var decRow = convertBinToDec(binRow);
   var rightDiagonals = getRightDiagonals(decRow, n);
   var leftDiagonals = getLeftDiagonals(decRow, n);
   var newRow = decRow | rightDiagonals | leftDiagonals;
@@ -59,17 +59,28 @@ var getRightDiagonals = function(decRow, n){
   }
   return convertBinToDec(rightDiagonalsBin);
 };
-//set new flag for each row where empty and within N
+//set new flag for each binRow where empty and within N
 
-var length = 0;
-var flag = 1;
-while( length < n ){
-  var bin = flag.toString(2);
-  if( bin.length < n ){
-    bin = padWithZeroes(bin, n);
+var storeAvailableBits = function(binRow, n){
+  var len = 0;
+  var decFlag = 1;
+  var availableBits = [];
+  while( len < n ){
+    var binFlag = convertDecToBin(decFlag);
+    if( binFlag.len < n ){
+      binFlag = padWithZeroes(binFlag, n);
+    }
+    if( binRow & binFlag ){
+      availableBits.push(n);
+    }
+    decFlag *= 2;
+    len++;
   }
-  console.log(bin);
+  return availableBits;
+};
 
-  flag *= 2;
-  length++;
-} 
+var binRow = "000001";
+var n = binRow.length;
+var availableBits = storeAvailableBits(binRow, n);
+console.log(availableBits);
+
