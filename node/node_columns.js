@@ -60,11 +60,14 @@ module.exports.countNQueensSolutions = function(n, topRowColumn) {
   var placedQueens = 0;
   var alreadyAttackedSquares = {};
 
-  var iterateOverRow = function (row, topRowColumn) {
+  var iterateOverRow = function (row, topRowColumn, attackedSquares) {
     var columnCheck;
     var column;
+
     topRowColumn !== undefined ? columnCheck = topRowColumn + 1 : columnCheck = n;
     topRowColumn !== undefined ? column = topRowColumn : column = 0;
+
+    alreadyAttackedSquares = attackedSquares || alreadyAttackedSquares;
 
     var row = row || 0;
 

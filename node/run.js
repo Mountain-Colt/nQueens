@@ -10,13 +10,15 @@ var total = 0;
 for(var i = 0; i < halfOfN; i++){
   var columnTotal = countNQueensSolutions(n, i);
   total += columnTotal;
-  console.log('total for column ' + i + ': ' + columnTotal);
+  console.log('total for columns ' + i + ' and ' + (n - i) + ': ' + columnTotal * 2);
 }
 
 if( nIsEven ){
   total *= 2;
 }else{
-  total = (total * 2) + countNQueensSolutions(n, halfOfN);
+  var middleColumnTotal = countNQueensSolutions(n, halfOfN);
+  total = (total * 2) + middleColumnTotal;
+  console.log('total for column ' + halfOfN + ': ' + middleColumnTotal);
 }
 
 console.log('total: ' + total);
