@@ -1,4 +1,4 @@
-module.exports.countNQueensSolutions = function(n, topRowColumn) {
+module.exports.countNQueensSolutions = function(n, topRowColumn, rowToIterateOver) {
   if (n === 0 || n === 1) {
     return 1;
   }
@@ -83,7 +83,7 @@ module.exports.countNQueensSolutions = function(n, topRowColumn) {
         getAttackedSquares(row, column, addSquaresToAttackedSquares);
 
         if ((row + 1) < n) {
-          iterateOverRow(row+1);
+          iterateOverRow(row + 1);
         }
 
         placedQueens--;
@@ -95,6 +95,8 @@ module.exports.countNQueensSolutions = function(n, topRowColumn) {
     }
     return;
   };
+
+  var rowToIterateOver = rowToIterateOver || 0;
 
   iterateOverRow(0, topRowColumn);
 
