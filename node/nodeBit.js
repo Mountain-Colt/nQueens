@@ -59,9 +59,8 @@ var getRightDiagonals = function(decRow, n){
   }
   return convertBinToDec(rightDiagonalsBin);
 };
-//set new flag for each binRow where empty and within N
 
-var storeAvailableBits = function(binRow, n){
+var getAvailableBits = function(binRow, n){
   var len = 0;
   var decFlag = 1;
   var availableBits = [];
@@ -70,17 +69,11 @@ var storeAvailableBits = function(binRow, n){
     if( binFlag.len < n ){
       binFlag = padWithZeroes(binFlag, n);
     }
-    if( binRow & binFlag ){
-      availableBits.push(n);
+    if( !(convertBinToDec(binRow) & convertBinToDec(binFlag)) ){
+      availableBits.push(len);
     }
     decFlag *= 2;
     len++;
   }
   return availableBits;
 };
-
-var binRow = "000001";
-var n = binRow.length;
-var availableBits = storeAvailableBits(binRow, n);
-console.log(availableBits);
-
