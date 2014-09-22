@@ -27,9 +27,11 @@ var getOpenSquares = function(row, n){
 };
 
 var getNextRow = function(row, n){
+  // debugger;
   var decRow = convertBinToDec(row);
   var rightDiagonals = getRightDiagonals(decRow, n);
   var leftDiagonals = getLeftDiagonals(decRow, n);
+  var newRow = decRow | rightDiagonals | leftDiagonals;
 
   return newRow;
 };
@@ -40,17 +42,23 @@ var getLeftDiagonals = function(decRow, n){
   if( leftDiagonalsBin.length > n){
     leftDiagonalsBin = leftDiagonalsBin.slice(1);
   }
+  if( leftDiagonalsBin.length < n ){
+    leftDiagonalsBin = padWithZeroes(leftDiagonalsBin, n);
+  }
   return convertBinToDec(leftDiagonalsBin);
 };
 
 var getRightDiagonals = function(decRow, n){
-  var rightDiagonals = decRow >> 2;
+  var rightDiagonals = decRow >> 1;
   var rightDiagonalsBin = convertDecToBin(rightDiagonals);
   if( rightDiagonalsBin.length > n){
     rightDiagonalsBin = rightDiagonalsBin.slice(1);
   }
+  if( rightDiagonalsBin.length < n ){
+    rightDiagonalsBin = padWithZeroes(rightDiagonalsBin, n);
+  }
   return convertBinToDec(rightDiagonalsBin);
-}
+};
 //set new flag for each row where empty and within N
 
 var length = 0;
