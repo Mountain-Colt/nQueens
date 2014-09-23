@@ -1,4 +1,4 @@
-// var n = process.argv[2];
+var n = process.argv[2];
 
 var padWithZeroes = function(bin, n){
   while( bin.length < n ){
@@ -70,8 +70,8 @@ var addBit = function(decRow, bitNumber){
 
 var removeBit = function(decRow, bitNumber){
 
+  return decRow - (1 << bitNumber);
 };
-
 
 var countSolutions = function(n, binRow, rowNumber, numberOfSolutions){
   var newRow;
@@ -86,18 +86,30 @@ var countSolutions = function(n, binRow, rowNumber, numberOfSolutions){
     //count solutions for openBits.length;
     numberOfSolutions = numberOfSolutions || 0;
     numberOfSolutions += getAvailableBits(binRow, n).length;
-    return;    
+    return numberOfSolutions;    
   }
 
   //modify row by attacks
   newRow = getNextRow(binRow, n);
+
   //create array of open bits (all)
-  openBits = getOpenBits(newRow, n);
+  availableBits = getAvailableBits(newRow, n);
+  if( availableBits.length === 0 ){
+    return numberOfSolutions;
+  }
+
+  newRow = convertBinToDec(newRow);
 
   //for each open bit
-  for(var i = 0; i < 12; i++){};
+  for(var i = 0; i < availableBits.length; i++){
     //add a bit
+    addBit(newRow, availableBits[i]);
     //recurse
+    numberOfSolutions += countSolutions(n, convertDecToBin(newRow), rowNumber, numberOfSolutions);
     //remove a bit
-    //return;
+
+  }
+  return numberOfSolutions;
 };
+
+countSolutions(n);
