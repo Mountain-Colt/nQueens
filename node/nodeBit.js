@@ -29,12 +29,11 @@ var getAvailableBits = function(binRow, n){
 };
 
 var getNextRow = function(binRow, n){
-  // debugger;
   var decRow = convertBinToDec(binRow);
   var rightDiagonals = getRightDiagonals(decRow, n);
   var leftDiagonals = getLeftDiagonals(decRow, n);
   var newRow = decRow | rightDiagonals | leftDiagonals;
-  var newBinRow = convertDecToBin(newRow);
+  var newBinRow = padWithZeroes(convertDecToBin(newRow), n);
 
   return newBinRow;
 };
@@ -74,17 +73,22 @@ var removeBit = function(decRow, bitNumber){
 };
 
 var countSolutions = function(n, binRow, rowNumber, numberOfSolutions){
-  var newRow;
+  var newRow, availableBits, nextRow;
   //get 0 length of n
   binRow = binRow || padWithZeroes('0', n);
 
   //rowNumber = rowNumber + 1 || 1;
   rowNumber = rowNumber + 1 || 1;
+  numberOfSolutions = numberOfSolutions || 0;
+
+  if(binRow.indexOf('0') === -1){
+    return numberOfSolutions;
+  }
 
   //if rowNumber === n
   if( rowNumber === n ){
+    debugger;
     //count solutions for openBits.length;
-    numberOfSolutions = numberOfSolutions || 0;
     numberOfSolutions += getAvailableBits(binRow, n).length;
     return numberOfSolutions;    
   }
@@ -103,9 +107,10 @@ var countSolutions = function(n, binRow, rowNumber, numberOfSolutions){
   //for each open bit
   for(var i = 0; i < availableBits.length; i++){
     //add a bit
-    addBit(newRow, availableBits[i]);
+    nextRow = addBit(newRow, availableBits[i]);
     //recurse
-    numberOfSolutions += countSolutions(n, convertDecToBin(newRow), rowNumber, numberOfSolutions);
+    nextRow = padWithZeroes(convertDecToBin(nextRow), n);
+    numberOfSolutions += countSolutions(n, nextRow, rowNumber, numberOfSolutions);
     //remove a bit
 
   }
