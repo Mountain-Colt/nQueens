@@ -77,3 +77,7 @@ var getAvailableBits = function(binRow, n){
   }
   return availableBits;
 };
+
+var addBit = function(decRow, bitNumber){
+  return bitNumber === 0 ? decRow | 1: decRow | (1 << bitNumber);
+};
