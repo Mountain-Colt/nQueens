@@ -1,4 +1,4 @@
-var n = process.argv[2];
+// var n = process.argv[2];
 
 var padWithZeroes = function(bin, n){
   while( bin.length < n ){
@@ -8,14 +8,16 @@ var padWithZeroes = function(bin, n){
 };
 
 var convertBinToDec = function(bin){
+
   return parseInt(bin, 2);
 };
 
 var convertDecToBin = function(dec){
+
   return dec.toString(2);
 };
 
-var getOpenSquares = function(binRow, n){
+var getAvailableBits = function(binRow, n){
   var decRow = convertBinToDec(binRow);
   var openPositions = [];
   for(var i = 0; i < n; i++){
@@ -32,8 +34,9 @@ var getNextRow = function(binRow, n){
   var rightDiagonals = getRightDiagonals(decRow, n);
   var leftDiagonals = getLeftDiagonals(decRow, n);
   var newRow = decRow | rightDiagonals | leftDiagonals;
+  var newBinRow = convertDecToBin(newRow);
 
-  return newRow;
+  return newBinRow;
 };
 
 var getLeftDiagonals = function(decRow, n){
@@ -60,24 +63,41 @@ var getRightDiagonals = function(decRow, n){
   return convertBinToDec(rightDiagonalsBin);
 };
 
-var getAvailableBits = function(binRow, n){
-  var len = 0;
-  var decFlag = 1;
-  var availableBits = [];
-  while( len < n ){
-    var binFlag = convertDecToBin(decFlag);
-    if( binFlag.len < n ){
-      binFlag = padWithZeroes(binFlag, n);
-    }
-    if( !(convertBinToDec(binRow) & convertBinToDec(binFlag)) ){
-      availableBits.push(len);
-    }
-    decFlag *= 2;
-    len++;
-  }
-  return availableBits;
+var addBit = function(decRow, bitNumber){
+
+  return bitNumber === 0 ? decRow | 1: decRow | (1 << bitNumber);
 };
 
-var addBit = function(decRow, bitNumber){
-  return bitNumber === 0 ? decRow | 1: decRow | (1 << bitNumber);
+var removeBit = function(decRow, bitNumber){
+
+};
+
+
+var countSolutions = function(n, binRow, rowNumber, numberOfSolutions){
+  var newRow;
+  //get 0 length of n
+  binRow = binRow || padWithZeroes('0', n);
+
+  //rowNumber = rowNumber + 1 || 1;
+  rowNumber = rowNumber + 1 || 1;
+
+  //if rowNumber === n
+  if( rowNumber === n ){
+    //count solutions for openBits.length;
+    numberOfSolutions = numberOfSolutions || 0;
+    numberOfSolutions += getAvailableBits(binRow, n).length;
+    return;    
+  }
+
+  //modify row by attacks
+  newRow = getNextRow(binRow, n);
+  //create array of open bits (all)
+  openBits = getOpenBits(newRow, n);
+
+  //for each open bit
+  for(var i = 0; i < 12; i++){};
+    //add a bit
+    //recurse
+    //remove a bit
+    //return;
 };
