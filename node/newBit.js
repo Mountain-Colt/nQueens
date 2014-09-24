@@ -7,16 +7,16 @@ var makeFlags = function(n){
 };
 
 
-var makeAttackedSquareRows = function(row, n, currentRowNumber, check){
+var makeAttackedSquareRows = function(flag, n, currentRowNumber, check){
   var rows = [];
   while(rows.length < currentRowNumber){
     rows.push(0);
   }
-  var rowDown = 0;
+  var numberOfRowsDown = 0;
   for(var i = 0; i < n - currentRowNumber; i++){
-    newRow = row | ( ((row << rowDown) < check ? (row << rowDown) : 0) | ((row >> rowDown) > 0 ? (row >> rowDown) : 0 ));
+    newRow = flag | ( ((flag << numberOfRowsDown) < check ? (flag << numberOfRowsDown) : 0) | ((flag >> numberOfRowsDown) > 0 ? (flag >> numberOfRowsDown) : 0 ));
     rows.push(newRow);
-    rowDown++;
+    numberOfRowsDown++;
   }
   return rows;
 };
@@ -71,4 +71,4 @@ var countSolutions = function(n, rowNumber, attackedSquareRows, flags, check, co
 
 module.exports.countSolutions = countSolutions;
 module.exports.makeFlags = makeFlags;
-module.exports.makeAttackedSquareRows;
+module.exports.makeAttackedSquareRows = makeAttackedSquareRows;

@@ -4,7 +4,8 @@ var makeAttackedSquareRows = require('./newBit.js').makeAttackedSquareRows;
 
 var n = Number(process.argv[2]);
 
-var run = function(n){
+var run = function(n, rowToStartAt){
+  rowToStartAt = rowToStartAt || 0;
   nIsEven = n % 2 === 0;
   halfOfN = Math.floor(n / 2);
   var check = (1 << n) - 1;
@@ -13,7 +14,7 @@ var run = function(n){
 
 
   for(var i = 0; i < halfOfN; i++){
-    var columnTotal = countSolutions(n, 0, [], flags, check, i);
+    var columnTotal = countSolutions(n, rowToStartAt, [], flags, check, i);
     total += columnTotal;
     console.log('total for columns ' + i + ' and ' + (n - i) + ': ' + columnTotal * 2);
   }
@@ -21,20 +22,25 @@ var run = function(n){
   if( nIsEven ){
     total *= 2;
   }else{
-    var middleColumnTotal = countSolutions(n, 0, [], flags, check, halfOfN);
+    var middleColumnTotal = countSolutions(n, rowToStartAt, [], flags, check, halfOfN);
     total = (total * 2) + middleColumnTotal;
     console.log('total for column ' + halfOfN + ': ' + middleColumnTotal);
   }
   return total;
 };
 
+//flag, n, currentRowNumber, check
+var flag = 4;
+var currentRowNumber = 0;
+var x = makeAttackedSquareRows(flag, n, currentRowNumber, 1 << n);
+
+console.log(x);
+// console.log('total: ' + run(n));
 
 
-console.log('total: ' + run(n));
+// FOR ROWNUMBER 1; N = 4
 
-
-// so I can split this up even further by doing a similar division on rowNumbers > 0
-
-// in order to do this I will need to:
-  // pass in attackedSquareRows from above
-  // return solutions back up to master process
+// for i < halfOfN
+  // calculate makeAttackedSquareRows
+  // for i < n
+    // run total passing in attackedSquares
