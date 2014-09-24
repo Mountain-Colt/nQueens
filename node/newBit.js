@@ -21,7 +21,7 @@ var makeAttackedSquareRows = function(flag, n, currentRowNumber, check){
   return rows;
 };
 
-var countSolutions = function(n, rowNumber, attackedSquareRows, flags, check, columnNumber){
+var countSolutions = function(n, rowNumber, attackedSquareRows, flags, check, columnNumber, baseRow){
   
   var row = 0;
 
@@ -44,13 +44,16 @@ var countSolutions = function(n, rowNumber, attackedSquareRows, flags, check, co
     return solutions;
   }
 
-  if( rowNumber === 0 ){
-    flag = flags[columnNumber];
+  var moreAttackedSquareRows, flag;
 
-    moreAttackedSquareRows = makeAttackedSquareRows(flag, n, rowNumber, check);
-    attackedSquareRows.push(moreAttackedSquareRows);
-    solutions += countSolutions(n, rowNumber + 1, attackedSquareRows, flags, check);
-    attackedSquareRows.pop();
+  if( rowNumber === baseRow ){
+    flag = flags[columnNumber];
+      if( !(row & flag) ){
+        moreAttackedSquareRows = makeAttackedSquareRows(flag, n, rowNumber, check);
+        attackedSquareRows.push(moreAttackedSquareRows);
+        solutions += countSolutions(n, rowNumber + 1, attackedSquareRows, flags, check);
+        attackedSquareRows.pop();
+      }
   }else{
     for(var i = 0; i < flags.length; i++){
       flag = flags[i];
@@ -64,7 +67,6 @@ var countSolutions = function(n, rowNumber, attackedSquareRows, flags, check, co
     }
   }
 
-  var moreAttackedSquareRows, flag;
 
   return solutions;
 };

@@ -14,33 +14,29 @@ var run = function(n, rowToStartAt){
 
 
   for(var i = 0; i < halfOfN; i++){
-    var columnTotal = countSolutions(n, rowToStartAt, [], flags, check, i);
-    total += columnTotal;
-    console.log('total for columns ' + i + ' and ' + (n - i) + ': ' + columnTotal * 2);
+    //flag, n, currentRowNumber, check
+    var attackedSquareRows = [];
+    attackedSquareRows.push(makeAttackedSquareRows(flags[i], n, 0, check));
+    for(var j = 0; j < n; j++){
+      // n, rowNumber, attackedSquareRows, flags, check, columnNumber, baseRow
+      var columnTotal = countSolutions(n, 1, attackedSquareRows, flags, check, j, 1);
+      total += columnTotal;
+    }
   }
 
   if( nIsEven ){
     total *= 2;
   }else{
-    var middleColumnTotal = countSolutions(n, rowToStartAt, [], flags, check, halfOfN);
+    var attackedSquareRows = [];
+    attackedSquareRows.push(makeAttackedSquareRows(flags[halfOfN], n, 0, check));
+    var middleColumnTotal = 0;
+    for(var i = 0; i < n; i++){
+      // n, rowNumber, attackedSquareRows, flags, check, columnNumber, baseRow
+      middleColumnTotal += countSolutions(n, 1, attackedSquareRows, flags, check, i, 1);
+    }
+
     total = (total * 2) + middleColumnTotal;
-    console.log('total for column ' + halfOfN + ': ' + middleColumnTotal);
   }
+  console.log('total: ' + total);
   return total;
 };
-
-//flag, n, currentRowNumber, check
-var flag = 4;
-var currentRowNumber = 0;
-var x = makeAttackedSquareRows(flag, n, currentRowNumber, 1 << n);
-
-console.log(x);
-// console.log('total: ' + run(n));
-
-
-// FOR ROWNUMBER 1; N = 4
-
-// for i < halfOfN
-  // calculate makeAttackedSquareRows
-  // for i < n
-    // run total passing in attackedSquares
