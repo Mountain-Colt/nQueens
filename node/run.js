@@ -3,6 +3,7 @@ var makeFlags = require('./newBit.js').makeFlags;
 var makeAttackedSquareRows = require('./newBit.js').makeAttackedSquareRows;
 
 var n = Number(process.argv[2]);
+var rowToStartAt = Number(process.argv[3]);
 
 var run = function(n, rowToStartAt){
   rowToStartAt = rowToStartAt || 0;
@@ -21,6 +22,7 @@ var run = function(n, rowToStartAt){
       // n, rowNumber, attackedSquareRows, flags, check, columnNumber, baseRow
       var columnTotal = countSolutions(n, 1, attackedSquareRows, flags, check, j, 1);
       total += columnTotal;
+      console.log('total for top column ' + i + ' and column ' + j + ': ' + columnTotal);
     }
   }
 
@@ -33,6 +35,7 @@ var run = function(n, rowToStartAt){
     for(var i = 0; i < n; i++){
       // n, rowNumber, attackedSquareRows, flags, check, columnNumber, baseRow
       middleColumnTotal += countSolutions(n, 1, attackedSquareRows, flags, check, i, 1);
+      console.log('total for top column ' + halfOfN + ' and column ' + i + ': ' + columnTotal);
     }
 
     total = (total * 2) + middleColumnTotal;
@@ -40,3 +43,5 @@ var run = function(n, rowToStartAt){
   console.log('total: ' + total);
   return total;
 };
+
+run(n, rowToStartAt);
