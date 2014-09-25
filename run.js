@@ -29,11 +29,8 @@ var run = function(n, rowToStartAt){
         row |= attackedSquareRows[i][rowNumber];
       }
       for(var j = 0; j < n; j++){
-        //if column is available (use attackedSquareRows)
         var flag = flags[j];
         if( !(flag & row) ){
-          //push to attackedSquareRows
-          //flag, n, currentRowNumber, check
           moreAttackedSquareRows = makeAttackedSquareRows(flag, n, rowNumber, check)
           attackedSquareRows.push(moreAttackedSquareRows);
           if( rowNumber === rowToStartAt ){
@@ -44,7 +41,6 @@ var run = function(n, rowToStartAt){
             total += columnTotal;
           }else{
             xelse++;
-            //magic function rowNumber + 1;
             magicFunction(rowNumber + 1, attackedSquareRows, flags);
           }
           attackedSquareRows.pop();
@@ -69,10 +65,7 @@ var run = function(n, rowToStartAt){
 
     total = total + outerColumnTotal;
   }
-  // console.log('total: ' + total);
-  // console.log('xif:' + xif);
-  // console.log('xelse:' + xelse);
-  // console.log('xcalled:' + xcalled);
+  console.log('total: ' + total);
   return total;
 };
 
