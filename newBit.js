@@ -1,5 +1,3 @@
-var n = process.argv[2];
-
 var makeFlags = function(n){
   var flags = [];
   for(var i = 0; i < n; i++){
@@ -9,40 +7,33 @@ var makeFlags = function(n){
 };
 
 
-var makeAttackedSquareRows = function(row, n, currentRow, check){
+var makeAttackedSquareRows = function(flag, n, currentRowNumber, check){
   var rows = [];
-  while(rows.length < currentRow){
+  while(rows.length < currentRowNumber){
     rows.push(0);
   }
-  var rowDown = 0;
-  for(var i = 0; i < n - currentRow; i++){
-    newRow = row | ( ((row << rowDown) < check ? (row << rowDown) : 0) | ((row >> rowDown) > 0 ? (row >> rowDown) : 0 ));
+  var numberOfRowsDown = 0;
+  for(var i = 0; i < n - currentRowNumber; i++){
+    newRow = flag | ( ((flag << numberOfRowsDown) < check ? (flag << numberOfRowsDown) : 0) | ((flag >> numberOfRowsDown) > 0 ? (flag >> numberOfRowsDown) : 0 ));
     rows.push(newRow);
-    rowDown++;
+    numberOfRowsDown++;
   }
   return rows;
 };
 
-var countSolutions = function(n, rowNumber, attackedSquareRows, flags, check){
-  // debugger;
-
-  rowNumber = rowNumber || 0;
+var countSolutions = function(n, rowNumber, attackedSquareRows, flags, check, columnNumber, baseRow){
   
   var row = 0;
-  attackedSquareRows = attackedSquareRows || [];
 
   for(var i = 0; i < attackedSquareRows.length; i++){
     row |= attackedSquareRows[i][rowNumber];
   }
-
-  check = check || ((1 << n) - 1);
 
   if( row >= check ){
     return 0;
   }
 
   var solutions = 0;
-  flags = flags || makeFlags(n);
 
   if( rowNumber === n - 1 ){
     for(var i = 0; i < flags.length; i++){
@@ -56,9 +47,6 @@ var countSolutions = function(n, rowNumber, attackedSquareRows, flags, check){
   var moreAttackedSquareRows, flag;
 
 
-
-  
-  // debugger;
   for(var i = 0; i < flags.length; i++){
     flag = flags[i];
     if( !(row & flag) ){
@@ -67,10 +55,13 @@ var countSolutions = function(n, rowNumber, attackedSquareRows, flags, check){
       solutions += countSolutions(n, rowNumber + 1, attackedSquareRows, flags, check);
       attackedSquareRows.pop();
 
-
     }
   }
+
+
   return solutions;
 };
 
-console.log(countSolutions(n));
+module.exports.countSolutions = countSolutions;
+module.exports.makeFlags = makeFlags;
+module.exports.makeAttackedSquareRows = makeAttackedSquareRows;
