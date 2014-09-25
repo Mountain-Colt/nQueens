@@ -7,5 +7,5 @@ RUN apt-get -yqq install nodejs
 RUN apt-get -yqq install curl
 RUN ln -s /usr/bin/nodejs /usr/bin/node
 
-ADD newBit.js / 
-ADD run.js /
+ADD ../../newBit.js / 
+ADD ../../run.js /

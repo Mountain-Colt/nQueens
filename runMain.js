@@ -5,10 +5,6 @@ var makeAttackedSquareRows = require('./newBit.js').makeAttackedSquareRows;
 var n = Number(process.argv[2]);
 var rowToStartAt = Number(process.argv[3]);
 
-var xif = 0;
-var xelse = 0;
-var xcalled = 0;
-
 var run = function(n, rowToStartAt){
   rowToStartAt = rowToStartAt || 0;
   nIsEven = n % 2 === 0;
@@ -34,13 +30,10 @@ var run = function(n, rowToStartAt){
           moreAttackedSquareRows = makeAttackedSquareRows(flag, n, rowNumber, check)
           attackedSquareRows.push(moreAttackedSquareRows);
           if( rowNumber === rowToStartAt ){
-            xif++;
             var columnTotal = countSolutions(n, rowToStartAt + 1, attackedSquareRows, flags, check, j, rowToStartAt);
             console.log('columnTotal: ' + columnTotal);
-            xcalled++;
             total += columnTotal;
           }else{
-            xelse++;
             magicFunction(rowNumber + 1, attackedSquareRows, flags);
           }
           attackedSquareRows.pop();
