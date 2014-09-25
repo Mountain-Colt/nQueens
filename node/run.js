@@ -15,15 +15,39 @@ var run = function(n, rowToStartAt){
 
 
   for(var i = 0; i < halfOfN; i++){
-    //flag, n, currentRowNumber, check
+    var magicFunction = function(rowNumber, attackedSquareRows, flags){
+      if( !rowToStartAt ){
+        return;
+      }
+      var check = (1 << n) - 1;
+      var row = 0;
+      for(var i = 0; i < attackedSquareRows.length; i++){
+        row |= attackedSquareRows[i][rowNumber];
+      }
+      for(var j = 0; j < n; j++){
+        //if column is available (use attackedSquareRows)
+        var flag = flags[j];
+        if( !(flag & row) ){
+          //push to attackedSquareRows
+          //flag, n, currentRowNumber, check
+          moreAttackedSquareRows = makeAttackedSquareRows(flag, n, rowNumber, check)
+          attackedSquareRows.push(moreAttackedSquareRows);
+          if( rowNumber === rowToStartAt ){
+            var columnTotal = countSolutions(n, rowToStartAt + 1, attackedSquareRows, flags, check, j, rowToStartAt);
+            total += columnTotal;
+          }else{
+            //magic function rowNumber + 1;
+            magicFunction(rowNumber + 1, attackedSquareRows, flags);
+          }
+          attackedSquareRows.pop();
+        }
+      }
+    };
     var attackedSquareRows = [];
     attackedSquareRows.push(makeAttackedSquareRows(flags[i], n, 0, check));
-    for(var j = 0; j < n; j++){
-      // n, rowNumber, attackedSquareRows, flags, check, columnNumber, baseRow
-      var columnTotal = countSolutions(n, 1, attackedSquareRows, flags, check, j, 1);
-      total += columnTotal;
-      console.log('total for top column ' + i + ' and column ' + j + ': ' + columnTotal);
-    }
+
+    magicFunction(1, attackedSquareRows, flags);
+
   }
 
   if( nIsEven ){
@@ -31,14 +55,11 @@ var run = function(n, rowToStartAt){
   }else{
     var attackedSquareRows = [];
     attackedSquareRows.push(makeAttackedSquareRows(flags[halfOfN], n, 0, check));
-    var middleColumnTotal = 0;
-    for(var i = 0; i < n; i++){
-      // n, rowNumber, attackedSquareRows, flags, check, columnNumber, baseRow
-      middleColumnTotal += countSolutions(n, 1, attackedSquareRows, flags, check, i, 1);
-      console.log('total for top column ' + halfOfN + ' and column ' + i + ': ' + columnTotal);
-    }
+    var outerColumnTotal = total * 2;
+    total = 0;
+    magicFunction(1, attackedSquareRows, flags);
 
-    total = (total * 2) + middleColumnTotal;
+    total = total + outerColumnTotal;
   }
   console.log('total: ' + total);
   return total;
