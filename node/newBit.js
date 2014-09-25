@@ -7,21 +7,21 @@ var makeFlags = function(n){
 };
 
 
-var makeAttackedSquareRows = function(row, n, currentRow, check){
+var makeAttackedSquareRows = function(flag, n, currentRowNumber, check){
   var rows = [];
-  while(rows.length < currentRow){
+  while(rows.length < currentRowNumber){
     rows.push(0);
   }
-  var rowDown = 0;
-  for(var i = 0; i < n - currentRow; i++){
-    newRow = row | ( ((row << rowDown) < check ? (row << rowDown) : 0) | ((row >> rowDown) > 0 ? (row >> rowDown) : 0 ));
+  var numberOfRowsDown = 0;
+  for(var i = 0; i < n - currentRowNumber; i++){
+    newRow = flag | ( ((flag << numberOfRowsDown) < check ? (flag << numberOfRowsDown) : 0) | ((flag >> numberOfRowsDown) > 0 ? (flag >> numberOfRowsDown) : 0 ));
     rows.push(newRow);
-    rowDown++;
+    numberOfRowsDown++;
   }
   return rows;
 };
 
-var countSolutions = function(n, rowNumber, attackedSquareRows, flags, check, columnNumber){
+var countSolutions = function(n, rowNumber, attackedSquareRows, flags, check, columnNumber, baseRow){
   
   var row = 0;
 
@@ -44,30 +44,24 @@ var countSolutions = function(n, rowNumber, attackedSquareRows, flags, check, co
     return solutions;
   }
 
-  if( rowNumber === 0 ){
-    flag = flags[columnNumber];
+  var moreAttackedSquareRows, flag;
 
-    moreAttackedSquareRows = makeAttackedSquareRows(flag, n, rowNumber, check);
-    attackedSquareRows.push(moreAttackedSquareRows);
-    solutions += countSolutions(n, rowNumber + 1, attackedSquareRows, flags, check);
-    attackedSquareRows.pop();
-  }else{
-    for(var i = 0; i < flags.length; i++){
-      flag = flags[i];
-      if( !(row & flag) ){
-        moreAttackedSquareRows = makeAttackedSquareRows(flag, n, rowNumber, check);
-        attackedSquareRows.push(moreAttackedSquareRows);
-        solutions += countSolutions(n, rowNumber + 1, attackedSquareRows, flags, check);
-        attackedSquareRows.pop();
 
-      }
+  for(var i = 0; i < flags.length; i++){
+    flag = flags[i];
+    if( !(row & flag) ){
+      moreAttackedSquareRows = makeAttackedSquareRows(flag, n, rowNumber, check);
+      attackedSquareRows.push(moreAttackedSquareRows);
+      solutions += countSolutions(n, rowNumber + 1, attackedSquareRows, flags, check);
+      attackedSquareRows.pop();
+
     }
   }
 
-  var moreAttackedSquareRows, flag;
 
   return solutions;
 };
 
 module.exports.countSolutions = countSolutions;
 module.exports.makeFlags = makeFlags;
+module.exports.makeAttackedSquareRows = makeAttackedSquareRows;
