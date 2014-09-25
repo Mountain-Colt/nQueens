@@ -3,7 +3,7 @@
 coreos:
   etcd:
     # generate a new token for each unique cluster from https://discovery.etcd.io/new
-    discovery: 
+    discovery: https://discovery.etcd.io/fc156dcc78bb7bc2866df8c23df939a7
     # multi-region deployments, multi-cloud deployments, and droplets without
     # public networking need to use $public_ipv4
     addr: $public_ipv4:4001
