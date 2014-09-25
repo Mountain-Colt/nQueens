@@ -4,5 +4,4 @@ After=docker.service
 
 [Service]
 TimeoutStartSec=0
-ExecStart=-/usr/bin/docker run --rm --name pres joshwyatt/dqueens /bin/bash -c "curl -X PUT -d value=\"hello from inside this container\" http://172.17.42.1:4001/v2/keys/frominside"
-ExecStop=/usr/bin/docker stop pres
+ExecStart=-/usr/bin/docker run --rm joshwyatt/dqueens /bin/bash -c "curl -X PUT -d value=\"hello from inside this container\" http://172.17.42.1:4001/v2/keys/frominside"
