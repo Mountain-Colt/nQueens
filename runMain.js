@@ -2,7 +2,28 @@ var countSolutions = require('./mainMain.js').countSolutions;
 var makeFlags = require('./mainMain.js').makeFlags;
 var makeAttackedSquareRows = require('./mainMain.js').makeAttackedSquareRows;
 
+// n will indicate the number of rows, columns, and queens we will calucate 
+// solutions for. A solution consists of a board in which n queens have been placed 
+// and none of the are attacking any other one
 var n = Number(process.argv[2]);
+// This implementation of n-queens is designed to be distributed into multiple processes. At 
+// a high level, this countSolutions algorithm is placing a queen on the `top row` of the board 
+// (which of course we are simply representing by a binary digit of 0's that is length n) and then 
+// recursively calling countSolutions again for the next row, passing in the board state created 
+// by having already placed a queen on the first row. What this means, is that by beginning at the 
+// first row, we have a single process that calculates all possible solutions.
+
+// In order to distribute the work, the user can decide at which row they would like start making calls 
+// to the main algorithm. This implementation will calculate all possible board states up to the 
+// requested row, and then make a call to countSolutions for each of these board states.
+
+// For example, consider if n === 4 and we start at the second row (row index of 1). Because there 
+// are 4 possible places that a queen could be placed on the first row, countSolutions is called 4 
+// times, each passing in a different board state based on where the queen was placed on the first row.
+// If we began at the third row (row index 2) then there would be 4 possible plays on the first row
+// as well as 4 possible plays at the second row for each of these first 4 plays and therefore 16 
+// calls to countSolutions, each beginning at the 3rd row and being passed in the board state for one
+// of the 16 possibilities.
 var rowToStartAt = Number(process.argv[3]);
 
 var run = function(n, rowToStartAt){
