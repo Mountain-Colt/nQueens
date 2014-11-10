@@ -24,6 +24,10 @@ var n = Number(process.argv[2]);
 // as well as 4 possible plays at the second row for each of these first 4 plays and therefore 16 
 // calls to countSolutions, each beginning at the 3rd row and being passed in the board state for one
 // of the 16 possibilities.
+
+// I hope this makes clear that the number of processes invoked is equal to n^rowToStartAtIndex. 
+// If n is 4 and we start at row index 0, there is 1 process. If n is 4 and we start at row index 1 
+// there are 4 processes etc.
 var rowToStartAt = Number(process.argv[3]);
 
 var run = function(n, rowToStartAt){
