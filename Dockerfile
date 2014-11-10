@@ -7,5 +7,7 @@ RUN apt-get -yqq install nodejs
 RUN apt-get -yqq install curl
 RUN ln -s /usr/bin/nodejs /usr/bin/node
 
-ADD ../../newBit.js / 
-ADD ../../run.js /
+ADD mainMain.js /
+ADD runMain.js /
+ADD main/main.service /
+Add satelite/satelite.service /

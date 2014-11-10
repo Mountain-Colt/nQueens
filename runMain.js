@@ -1,6 +1,6 @@
-var countSolutions = require('./newBit.js').countSolutions;
-var makeFlags = require('./newBit.js').makeFlags;
-var makeAttackedSquareRows = require('./newBit.js').makeAttackedSquareRows;
+var countSolutions = require('./mainMain.js').countSolutions;
+var makeFlags = require('./mainMain.js').makeFlags;
+var makeAttackedSquareRows = require('./mainMain.js').makeAttackedSquareRows;
 
 var n = Number(process.argv[2]);
 var rowToStartAt = Number(process.argv[3]);
@@ -58,7 +58,7 @@ var run = function(n, rowToStartAt){
 
     total = total + outerColumnTotal;
   }
-  console.log('total: ' + total);
+  // console.log('total: ' + total);
   return total;
 };
 
