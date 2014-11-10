@@ -58,7 +58,7 @@ var run = function(n, rowToStartAt){
 
     total = total + outerColumnTotal;
   }
-  // console.log('total: ' + total);
+  console.log('total: ' + total);
   return total;
 };
 
